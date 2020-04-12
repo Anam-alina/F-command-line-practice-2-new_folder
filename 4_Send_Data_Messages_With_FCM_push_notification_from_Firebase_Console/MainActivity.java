@@ -1,6 +1,9 @@
 public class MainActivity extends AppCompatActivity {
-    Button button;
-    protected void inCreate(Bundlde savedInstanceState) {
+    TextView textView;
+    String message = "No new Messages";
+
+    String app_server_url = "http://10.0.2.2/fcmtest/fcm_insert.php";
+    protected void onCreate(Bundlde savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button = (Button)findViewById(R.id.button);
@@ -23,11 +26,20 @@ public class MainActivity extends AppCompatActivity {
                     protected Map<String, String> getParamas() throws AuthFailureError {
                         Map<String,String> paramas = new HashMap<String, String>();
                         paramas.put("fcm_token",token);
-
-                        return super.getParamas();
+                        return paramas;
                     }
                 };
                 MySingleton.getmInstance(MainActivity.this).addToRequestque(stringRequest);
+              textView = (TextView)findViewById(R.id.textView);
+                
+                if(getIntent().getExtras()!=null)
+                {
+                    message = getIntent().getExtras().getString("message");
+                    if(message==null)
+                    {
+                        message = "No New Messages";
+                    }
+                }
             }
         });
     }
